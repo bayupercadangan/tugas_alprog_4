@@ -1,7 +1,22 @@
 #include <stdio.h>
 #include <string.h>
 
+// Initiate size of file
 #define DATA_SIZE 1000
+
+// DataMinuman...
+typedef struct DataMinuman {
+  char nama[20];
+  char size[10];
+  char serve[10];
+  int price;
+} DMinuman ;
+
+// Initiate Function
+void menu1(DMinuman *pData);
+void menu2(DMinuman *pData);
+void menu3(DMinuman *pData, int index);
+void menu4(DMinuman *pData);
 
 int main() {
   int menu;
@@ -28,7 +43,7 @@ int main() {
     
     switch (menu) {
       case 1:
-        printf("Input Menu");
+        printf("Input Data");
         break;
       case 2:
         printf("View History");
