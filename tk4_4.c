@@ -11,7 +11,7 @@ typedef struct DataMinuman {
 } DMinuman ;
 
 // Initiate Function
-void menu1(DMinuman *pData);
+void menu1(DMinuman *pData, int *pLength);
 void menu2(DMinuman *pData, int pLength);
 void menu3(DMinuman *pData, int index);
 void menu4(DMinuman *pData);
@@ -52,7 +52,7 @@ int main() {
     
     switch (menu) {
       case 1:
-        printf("Input Data");
+        menu1(&data[length], &length);
         break;
       case 2:
         menu2(data, length);
@@ -62,8 +62,10 @@ int main() {
         break;
       case 4:
         printf("Exit!");
+        exit(1);
         break;
       default:
+        exit(1);
         break;
     }
   } while (menu != 4);
@@ -72,6 +74,29 @@ int main() {
   return 0;
 }
 
+void menu1(DMinuman *pData, int *pLength) {
+  int length = *pLength, price;
+  length += 1;
+  DMinuman *data;
+  *data = *pData;
+
+  printf("\n=============== Input Data ===============\n");
+
+  printf("Masukkan Nama Minuman (kopi / teh / coklat / soda): ");
+  scanf("%s", data[length].nama);
+  printf("Masukkan Size (small / medium / large): ");
+  scanf("%s", data[length].size);
+  printf("Masukkan Penyajian (dingin / panas / hangat: ");
+  scanf("%s", data[length].serve);
+  printf("Total Harga: ");
+  scanf("%d", &data[length].price);
+
+  *pLength = length;
+  *pData = data[length];
+  printf("Sukses Menambahkan data!\n");
+};
+
+// View History
 void menu2(DMinuman *pData, int pLength) {
   printf("\n=============== View History ===============\n");
   for (int i; i < pLength; i++) {
