@@ -1,8 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-
-// Initiate size of file
-#define DATA_SIZE 1000
 
 // DataMinuman...
 typedef struct DataMinuman {
@@ -14,19 +12,30 @@ typedef struct DataMinuman {
 
 // Initiate Function
 void menu1(DMinuman *pData);
-void menu2(DMinuman *pData);
+void menu2(DMinuman *pData, int pLength);
 void menu3(DMinuman *pData, int index);
 void menu4(DMinuman *pData);
 
 int main() {
-  int menu;
-  char data[DATA_SIZE];
-  FILE *fPtr;
+  int menu; // Pilihan Menu
+  int length; // Panjang data
+  DMinuman *data; // Menampung dat
+  FILE *myFile; // Menampung file
 
-  fPtr = fopen("dataminuman.txt", "w");
+  myFile = fopen("dataminuman.txt", "r"); // Membaca file
 
-  if (fPtr == NULL) {
-    fPtr = fopen("dataminuman.txt", "a");
+  // Pengecekan file
+  if (myFile == NULL) {
+    printf("File tidak ditemukan, gua buat dulu filenya nih...! \n");
+    exit(1);
+  } else {
+    fscanf(myFile, "%i", &length); // Mendapatkan jumlah data
+    for (int i = 0; i < length; i++) { // Looping menyimpan data dari file ke variable data
+      fscanf(myFile, "%s", data[i].nama);
+      fscanf(myFile, "%s", data[i].size);
+      fscanf(myFile, "%s", data[i].serve);
+      fscanf(myFile, "%d", &data[i].price);
+    }
   }
 
   printf("PROGRAM INPUT HISTORY JUALAN TOKO\n");
@@ -46,7 +55,7 @@ int main() {
         printf("Input Data");
         break;
       case 2:
-        printf("View History");
+        menu2(data, length);
         break;
       case 3:
         printf("Delete History");
@@ -59,6 +68,15 @@ int main() {
     }
   } while (menu != 4);
   
-
+  fclose(myFile);
   return 0;
+}
+
+void menu2(DMinuman *pData, int pLength) {
+  printf("\n=============== View History ===============\n");
+  for (int i; i < pLength; i++) {
+    printf("%d. ", i+1);
+    printf("%s, %s, %s, Rp. %d \n", pData[i].nama, pData[i].size, pData[i].serve, pData[i].price);
+  }
+  printf("\n=============== Selesai menampilkan History, silakan pilih menu lagi \n");
 }
