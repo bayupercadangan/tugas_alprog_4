@@ -13,7 +13,7 @@ typedef struct DataMinuman {
 // Initiate Function
 void menu1(DMinuman *pData, int *pLength);
 void menu2(DMinuman *pData, int pLength);
-void menu3(DMinuman *pData, int index);
+void menu3(DMinuman *pData, int *pLength);
 void menu4(DMinuman *pData);
 
 int main() {
@@ -58,7 +58,7 @@ int main() {
         menu2(data, length);
         break;
       case 3:
-        printf("Delete History");
+        menu3(data, &length);
         break;
       case 4:
         printf("Exit!");
@@ -104,4 +104,26 @@ void menu2(DMinuman *pData, int pLength) {
     printf("%s, %s, %s, Rp. %d \n", pData[i].nama, pData[i].size, pData[i].serve, pData[i].price);
   }
   printf("\n=============== Selesai menampilkan History, silakan pilih menu lagi \n");
+}
+
+// Delete data by Index
+void menu3(DMinuman *pData, int *pLength) {
+  int position, length;
+  length = *pLength;
+
+  printf("\n=============== Delete Data ===============\n");
+  printf("Masukkan posisi data yang akan dihapus: ");
+  scanf("%d", &position);
+
+  if (position < 0 || position > length) {
+    printf("Invalid Position! Masukkan posisi antara 1 dengan %d", length);
+  } else {
+    for (int i = position - 1; i < length - 1; i++) {
+      pData[i] = pData[i+1];
+    }
+    length--;
+    printf("Data ke %d berhasil dihapus\n", position);
+  }
+
+  *pLength = length;
 }
