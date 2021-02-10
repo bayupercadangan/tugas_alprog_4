@@ -1,4 +1,3 @@
-3
-Kopi Small Panas 3500
-Teh Medium Dingin 3500
-Kopi Large Hangat 3500
+2
+teh large panas 4500
+coklat medium panas 6000
