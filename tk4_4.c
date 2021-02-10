@@ -75,25 +75,61 @@ int main() {
 }
 
 void menu1(DMinuman *pData, int *pLength) {
-  int length = *pLength, price;
+  int length = *pLength, price, sizePrice;
+  int isContinue;
+  char validate = 'n';
+  DMinuman *data = pData;
   length += 1;
-  DMinuman *data;
-  *data = *pData;
 
   printf("\n=============== Input Data ===============\n");
 
   printf("Masukkan Nama Minuman (kopi / teh / coklat / soda): ");
   scanf("%s", data[length].nama);
-  printf("Masukkan Size (small / medium / large): ");
-  scanf("%s", data[length].size);
-  printf("Masukkan Penyajian (dingin / panas / hangat: ");
-  scanf("%s", data[length].serve);
-  printf("Total Harga: ");
-  scanf("%d", &data[length].price);
+  if (strcmp("kopi", data[length].nama) == 0 || strcmp("kopi", data[length].nama) == 0 || strcmp("coklat", data[length].nama) == 0 || strcmp("soda", data[length].nama) == 0) {
+    isContinue = 1;
+  } else isContinue = 0;
 
-  *pLength = length;
-  *pData = data[length];
-  printf("Sukses Menambahkan data!\n");
+  printf("Masukkan Size (small = 1 / medium = 2 / large = 3): ");
+  scanf("%s", data[length].size);
+  if (strcmp("small", data[length].size) == 0 || strcmp("medium", data[length].size) == 0 || strcmp("medium", data[length].size) == 0) {
+    isContinue = 1;
+  } else isContinue = 0;
+
+  printf("Masukkan Penyajian (dingin / panas / hangat): ");
+  scanf("%s", data[length].serve);
+  if (strcmp("dingin", data[length].serve) == 0 || strcmp("panas", data[length].serve) == 0 || strcmp("hangat", data[length].serve) == 0) {
+    isContinue = 1;
+  } else isContinue = 0;
+  
+  // Calculate price
+  if (isContinue) {
+    if (strcmp("small", data[length].size) == 0) sizePrice = 1;
+    else if (strcmp("medium", data[length].size) == 0) sizePrice = 2;
+    else if (strcmp("large", data[length].size) == 0) sizePrice = 3;
+    else isContinue = 0;
+    price = sizePrice * strlen(data[length].nama) * strlen(data[length].serve) * 100;
+    data[length].price = price;
+
+    printf("========= RESULT =========\n");
+    printf("Nama      : %s \n", data[length].nama);
+    printf("Size      : %s \n", data[length].size);
+    printf("Penyajian : %s \n", data[length].serve);
+    printf("Harga     : %d \n", data[length].price);
+
+    printf("\nYaqueen mau nambahin data diatas?: (y / n)");
+    scanf(" %c", &validate);
+
+    if ('y' == validate) {
+      *pLength = length;
+      *pData = data[length];
+      printf("Sukses Menambahkan data!\n\n");
+    } else {
+      printf("Yaah kok nggak jadi? Tapi bisa kok ntar milih input lagi\n\n");
+    }
+  } else {
+    printf("TERDAPAT INPUT YANG TIDAK SESUAI!\n");
+    printf("Pastikan input nama / size / penyajian sesuai dari yang ada!\n\n");
+  }
 };
 
 // View History
@@ -138,7 +174,7 @@ void menu4(DMinuman *pData, int length) {
     fprintf(fileOut, "%s ", pData[i].nama);
     fprintf(fileOut, "%s ", pData[i].size);
     fprintf(fileOut, "%s ", pData[i].serve);
-    fprintf(fileOut, "%d\n ", pData[i].price);
+    fprintf(fileOut, "%d\n", pData[i].price);
   }
 
   fclose(fileOut);
