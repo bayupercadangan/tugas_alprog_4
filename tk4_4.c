@@ -14,7 +14,7 @@ typedef struct DataMinuman {
 void menu1(DMinuman *pData, int *pLength);
 void menu2(DMinuman *pData, int pLength);
 void menu3(DMinuman *pData, int *pLength);
-void menu4(DMinuman *pData);
+void menu4(DMinuman *pData, int pLength);
 
 int main() {
   int menu; // Pilihan Menu
@@ -22,9 +22,8 @@ int main() {
   DMinuman *data; // Menampung dat
   FILE *myFile; // Menampung file
 
-  myFile = fopen("dataminuman.txt", "r"); // Membaca file
-
   // Pengecekan file
+  myFile = fopen("dataminuman.txt", "r");
   if (myFile == NULL) {
     printf("File tidak ditemukan, gua buat dulu filenya nih...! \n");
     exit(1);
@@ -36,6 +35,7 @@ int main() {
       fscanf(myFile, "%s", data[i].serve);
       fscanf(myFile, "%d", &data[i].price);
     }
+    fclose(myFile);
   }
 
   printf("PROGRAM INPUT HISTORY JUALAN TOKO\n");
@@ -61,16 +61,16 @@ int main() {
         menu3(data, &length);
         break;
       case 4:
-        printf("Exit!");
+        menu4(data, length);
         exit(1);
         break;
       default:
+        printf("Menu yang anda masukkan tidak tersedia!\n");
         exit(1);
         break;
     }
   } while (menu != 4);
   
-  fclose(myFile);
   return 0;
 }
 
@@ -126,4 +126,22 @@ void menu3(DMinuman *pData, int *pLength) {
   }
 
   *pLength = length;
+}
+
+// Exit and save data to dataminuman.txt
+void menu4(DMinuman *pData, int length) {
+  printf("\n=============== Exit Data ===============\n");
+  FILE *fileOut = fopen("dataminuman.txt", "w");
+
+  fprintf(fileOut, "%d\n", length); // Menulis jumlah data ke dataminuman.txt
+  for (int i = 0; i < length; i++) { // Menulis 1/1 data ke dataminuman.txt
+    fprintf(fileOut, "%s ", pData[i].nama);
+    fprintf(fileOut, "%s ", pData[i].size);
+    fprintf(fileOut, "%s ", pData[i].serve);
+    fprintf(fileOut, "%d\n ", pData[i].price);
+  }
+
+  fclose(fileOut);
+  printf("DATA BERHASIL DISIMPAN!\n");
+  exit(1);
 }
